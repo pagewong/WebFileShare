@@ -10,20 +10,20 @@ home = Blueprint('views', __name__)
 def index():
     media_root_path = current_app.config.get("MEDIA_ROOT")
     if request.method == 'POST':
-        # check if the post request has the file part
-        if 'upload_file' not in request.files:
+        try:
+            files = request.files.getlist('upload_file')
+        except Exception as e:
+            resp = make_response(f"接收错误:{e}", 400)
+            return resp
+        if not files:
             resp = make_response("没有提交任何文件", 400)
             return resp
-        file = request.files['upload_file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            resp = make_response("没有提交任何文件", 400)
-            return resp
-        if file:
+        for file in files:
+            if not file.filename:
+                continue
             filename = secure_filename(file.filename)
             file.save(os.path.join(media_root_path, filename))
-            return "上传成功"
+        return "上传成功"
     else:
         search_path = request.args.get("path", None)
         data_content = list_path(search_path)

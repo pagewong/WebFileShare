@@ -54,15 +54,22 @@ function msg_show(msg, show_type){
 
 function upload(){
 
-    let files = document.querySelector('#select_file_input').files
+    // let files = document.querySelector('#select_file_input').files
+    let files = document.getElementById("select_file_input").files;
+    console.log("fii:", files)
     if (files.length <= 0) {
         msg_show('请选择要上传的文件！', ERR_STATUS)
     }
 
   let formData = new FormData();
-  formData.append('upload_file', files[0]);
+    for(let i = 0 ;i<files.length;i++){
+        let file = files[i];
+        // file_list.push(file);
+        formData.append('upload_file', file);
 
+    }
 
+    console.log("formdata:", formData)
   var xhr = new XMLHttpRequest();
   xhr.timeout = 3000;
   xhr.responseType = "text";
@@ -78,10 +85,13 @@ function upload(){
     }
   };
   xhr.ontimeout = function(e) {
+        console.log("连接超时")
+        msg_show("连接超时", ERR_STATUS);
 
   };
   xhr.onerror = function(e) {
       console.log("error");
+      msg_show("连接错误："+ e, ERR_STATUS);
   };
 
   xhr.send(formData);
