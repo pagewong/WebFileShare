@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload_file.css') }}">
+    <script src="{{ url_for('static', filename='upload_file.js') }}"></script>
+    <script>
+
+
+
+
+    </script>
+</head>
+<body>
+    <div class="main">
+        <div class="head">
+                <h1>文件上传</h1>
+        </div>
+
+
+        <div class="pure-g">
+            <div class="pure-u-1-5 file_upload_div">
+                    <label class="input-file">
+                    选择文件<input type="file" id="select_file_input" />
+                    </label>
+
+            </div>
+
+            <div class="pure-u-1-5 file_upload_div">
+                    <label id="file_sub" class="input-file">上传<button id="file_sub_bt"></button></label>
+            </div>
+
+            <div class="pure-u-1-5 msg_show">
+                    <span id="msg"></span>
+            </div>
+
+        </div>
+
+
+        <div class="content">
+            <table class="pure-table">
+            <thead>
+                <tr>
+                    {% for d in data.data_head %}
+                    <th>{{ d }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for d in data.data_content %}
+                <tr>
+                    {% if d.file_type=='dir' %}
+                    <td><a href="/{{ d.file_path }}">{{d.file_name}}</a></td>
+                    {% else %}
+                    <td><a href="/media{{ d.file_path }}">{{d.file_name}}</a></td>
+                    {% endif %}
+                    <td>{{ d.file_type }}</td>
+                    <td>{{ d.file_size }}</td>
+                    <td>{{ d.file_st_mtime }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+.main{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 750px;
+    background: beige;
+}
+.head{
+    padding: 10px;
+}
+.head h1{
+    text-align: center;
+}
+
+
+.content{
+    padding: 5px;
+}
+.content table{
+    width: 100%;
+    background: #cad2d3;
+}
+
+

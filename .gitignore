@@ -1,0 +1,18 @@
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+
+# My configurations:
+.vscode/
+*.sqlite3
+.idea/
+settings/
+logs/
+__pycache__
