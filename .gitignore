@@ -13,6 +13,6 @@ Desktop.ini
 .vscode/
 *.sqlite3
 .idea/
-settings/*.*
+settings/
 logs/
 __pycache__
