@@ -9,10 +9,12 @@ window.onload=function(){
             file_bt_click();
 }
 function choose_file_change(){
-    document.getElementById("select_file_input").addEventListener("change",function () {
+    const select_file_input = document.getElementById("select_file_input");
+    select_file_input.addEventListener("change",function () {
         console.log("change:", this.value);
         toggle_sub_bt(1);
         msg_show(this.value, NORMAL_STATUS);
+        // upload(select_file_input.files);
     });
 }
 
@@ -52,49 +54,44 @@ function msg_show(msg, show_type){
 
 }
 
-function upload(){
 
-    // let files = document.querySelector('#select_file_input').files
+upload = () => {
+
     let files = document.getElementById("select_file_input").files;
     console.log("fii:", files)
     if (files.length <= 0) {
         msg_show('请选择要上传的文件！', ERR_STATUS)
     }
+    // Create FormData instance
+    const fd = new FormData();
 
-  let formData = new FormData();
-    for(let i = 0 ;i<files.length;i++){
-        let file = files[i];
-        // file_list.push(file);
-        formData.append('upload_file', file);
+    Array.from(files).forEach(f => {
+        fd.append('upload_file', f);
+    });
 
-    }
-
-    console.log("formdata:", formData)
-  var xhr = new XMLHttpRequest();
-  xhr.timeout = 3000;
-  xhr.responseType = "text";
-  xhr.open('POST', '/', true);
-  xhr.onprogress = function(){
+    // Create XHR rquest
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "text";
+    xhr.open('POST', '/', true);
+    xhr.onprogress = function(){
     console.log("加载状态READYSTATE"+ xhr.readyState);
-  }
-  xhr.onload = function(e) {
+    }
+    xhr.onload = function(e) {
     if(this.status === 200){
         msg_show(this.responseText, SUCCESS_STATUS);
     }else{
         msg_show(this.responseText||"上传失败", ERR_STATUS);
     }
-  };
-  xhr.ontimeout = function(e) {
+    };
+    xhr.ontimeout = function(e) {
         console.log("连接超时")
         msg_show("连接超时", ERR_STATUS);
 
-  };
-  xhr.onerror = function(e) {
+    };
+    xhr.onerror = function(e) {
       console.log("error");
       msg_show("连接错误："+ e, ERR_STATUS);
-  };
+    };
 
-  xhr.send(formData);
-
-
-}
+    xhr.send(fd);
+};
