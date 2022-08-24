@@ -6,14 +6,14 @@
     <title>文件上传</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='upload_file.css') }}">
-    <script src="{{ url_for('static', filename='upload_file.js') }}"></script>
-    <script>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='dropzone.min.css') }}">
+    <script type="application/javascript" src="{{ url_for('static', filename='dropzone.min.js') }}"></script>
 
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/basic.min.css"/>-->
+<!--    <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script> -->
 
-
-    </script>
 </head>
 <body>
     <div class="main">
@@ -24,14 +24,10 @@
 
         <div class="pure-g">
             <div class="pure-u-1-5 file_upload_div">
-                    <label class="input-file">
-                    选择文件<input type="file" id="select_file_input" multiple/>
-                    </label>
+                <form method="POST" action='/upload' class="dropzone dz-clickable"
+                      id="dropper" enctype="multipart/form-data">
+                </form>
 
-            </div>
-
-            <div class="pure-u-1-5 file_upload_div">
-                    <label id="file_sub" class="input-file">上传<button id="file_sub_bt"></button></label>
             </div>
 
             <div class="pure-u-1-5 msg_show">
@@ -68,5 +64,27 @@
         </table>
         </div>
     </div>
+
+<script type="application/javascript">
+    Dropzone.options.dropper = {
+        paramName: 'file',
+        chunking: true,
+        forceChunking: true,
+        url: '/upload',
+        maxFilesize: 4096,
+        chunkSize: 1000000,
+
+        dictDefaultMessage: '拖动文件至此或者点击上传',
+        init: function () {
+        this.on("success", function (file, data) {
+            alert("success@@@@@@");
+            console.log(file);
+            console.log(data)
+        });
+    }
+    }
+
+</script>
+
 </body>
 </html>
